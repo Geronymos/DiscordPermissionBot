@@ -1,27 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php
+<?php
 
-    include __DIR__.'/vendor/autoload.php';
+include __DIR__.'/vendor/autoload.php';
 
-    use RestCord\DiscordClient;
+use RestCord\DiscordClient;
 
-    $token = getenv('BOT_TOKEN');
+header('Content-Type: application/json');
 
-    // $discord = new DiscordClient(['token' => 'bot-token']); // Token is required
+// get bot token from evironment variable in htaccess file
+$token = ( getenv('BOT_TOKEN') ? getenv('BOT_TOKEN') : getenv('REDIRECT_BOT_TOKEN') );
+// get discord server id via get parameter; example: https://[...]/DiscordPermissionBot/?server=YOUR_SERVER_ID
+$server = intval($_GET['server']);
 
+// New bot client login
+$discord = new DiscordClient(['token' => $token]); // Token is required
 
+// get roles and channels from server
+$roles = $discord->guild->getGuildRoles(['guild.id' => $server]);
+$channels = $discord->guild->getGuildChannels(['guild.id' => $server]);
 
-    // var_dump($discord->guild->getGuild(['guild.id' => 81384788765712384]));
-    echo "Hello Wolrd!";
-    echo $token; 
-    ?>
-    
-</body>
-</html>
+// bundle data
+$data = [
+    "channels" => $channels,
+    "roles" => $roles
+];
+
+// print data
+echo json_encode( $data, JSON_PRETTY_PRINT);
+
+?>
