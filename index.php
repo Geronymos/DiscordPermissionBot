@@ -4,7 +4,8 @@ include __DIR__.'/vendor/autoload.php';
 
 use RestCord\DiscordClient;
 
-header('Content-Type: application/json');
+header('Content-Type: application/json;');
+header("Access-Control-Allow-Origin: *");
 
 // get bot token from evironment variable in htaccess file
 $token = ( getenv('BOT_TOKEN') ? getenv('BOT_TOKEN') : getenv('REDIRECT_BOT_TOKEN') );
