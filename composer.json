@@ -1,0 +1,5 @@
+{
+    "require": {
+        "restcord/restcord": "^0.3.2"
+    }
+}
