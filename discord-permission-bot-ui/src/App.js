@@ -4,6 +4,7 @@ import './App.css';
 import { bot_url, server_id } from './config.json';
 import { Container, Row, Col } from 'react-bootstrap';
 import Channels from './components/channels';
+import Permissions from './components/permissions';
 
 function App() {
   var [data, setData] = React.useState({ channels: [], roles: [] });
@@ -19,8 +20,6 @@ function App() {
     fetchData();
   }, []);
 
-
-
   return (
     <Container>
       <Row>
@@ -28,6 +27,7 @@ function App() {
           <Channels data={data} setActiveRole={setActiveRole}></Channels>
         </Col>
         <Col lg={6}>
+          <Permissions activeRole={activeRole}></Permissions>
         </Col>
       </Row>
     </Container>
