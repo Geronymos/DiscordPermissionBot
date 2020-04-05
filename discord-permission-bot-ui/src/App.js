@@ -2,6 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { bot_url, server_id } from './config.json';
+
+
 import { Container, Row, Col } from 'react-bootstrap';
 import Channels from './components/channels';
 import Permissions from './components/permissions';
@@ -14,7 +16,6 @@ function App() {
     async function fetchData() {
       const response = await fetch(bot_url + "/?server=" + server_id);
       const result = await response.json();
-      setActiveRole(result.roles[0]);
       setData(result);
     }
     fetchData();
