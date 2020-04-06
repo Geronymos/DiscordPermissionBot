@@ -4,9 +4,11 @@ import './App.css';
 import { bot_url, server_id } from './config.json';
 
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, Carousel, Container, Row, Col } from 'react-bootstrap';
 import Channels from './components/channels';
 import Permissions from './components/permissions';
+import githublogo from './media/GitHub-Mark-32px.png';
+// import Search from './components/search';
 
 function App() {
   var [data, setData] = React.useState({ channels: [], roles: [] });
@@ -22,16 +24,36 @@ function App() {
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Col lg={6}>
-          <Channels data={data} setActiveRole={setActiveRole}></Channels>
-        </Col>
-        <Col lg={6}>
-          <Permissions activeRole={activeRole}></Permissions>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Navbar bg="light">
+        <Navbar.Brand href="#home">DiscordPermissionBot</Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link href="#home">How to</Nav.Link>
+        </Nav>
+        <Navbar.Brand href="https://github.com/Geronymos/DiscordPermissionBot">
+          <img
+            src={githublogo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />{' '}
+          GitHub Repo
+        </Navbar.Brand>
+      </Navbar>
+      <Carousel interval={null} id="bot-carousel">
+        <Carousel.Item>
+          <Container>
+            <Channels data={data} setActiveRole={setActiveRole}></Channels>
+          </Container>
+        </Carousel.Item>
+        <Carousel.Item>
+          <Container>
+            <Permissions activeRole={activeRole}></Permissions>
+          </Container>
+        </Carousel.Item>
+      </Carousel>
+    </div>
   );
 }
 
