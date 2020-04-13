@@ -14,8 +14,8 @@ function Channels({ data, setActiveRole }) {
                 </tr>
             </thead>
             <tbody>
-                {data.channels.map((channel) =>
-                    <Channel channel={channel} roles={data.roles} setActiveRole={setActiveRole}></Channel>
+                {data.channels.map((channel, key) =>
+                    <Channel channel={channel} key={key} roles={data.roles} setActiveRole={setActiveRole}></Channel>
                 )}
             </tbody>
         </Table>
