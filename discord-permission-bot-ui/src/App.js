@@ -4,7 +4,7 @@ import './App.css';
 import { bot_url, server_id } from './config.json';
 
 
-import { Navbar, Nav, Carousel, Container, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, Carousel, Container, Badge } from 'react-bootstrap';
 import Channels from './components/channels';
 import Permissions from './components/permissions';
 import githublogo from './media/GitHub-Mark-32px.png';
@@ -13,6 +13,7 @@ import githublogo from './media/GitHub-Mark-32px.png';
 function App() {
   var [data, setData] = React.useState({ channels: [], roles: [] });
   var [activeRole, setActiveRole] = React.useState();
+  const activeRoleColor = "#" + (activeRole?.role.color || 8948369).toString(16);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -41,15 +42,16 @@ function App() {
           GitHub Repo
         </Navbar.Brand>
       </Navbar>
-      <Carousel interval={null} id="bot-carousel">
-        <Carousel.Item>
+      <Carousel interval={null} id="bot-carousel" wrap={false}>
+        <Carousel.Item id="channels">
           <Container>
-            <Channels data={data} setActiveRole={setActiveRole}></Channels>
+            <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.role.name}</Badge> in {activeRole?.channel.name}</h2>
+            <Permissions allowCode={activeRole?.permission_overwrites.allow} denyCode={activeRole?.permission_overwrites.deny}></Permissions>
           </Container>
         </Carousel.Item>
-        <Carousel.Item>
+        <Carousel.Item id="permissions">
           <Container>
-            <Permissions activeRole={activeRole}></Permissions>
+            <Channels data={data} setActiveRole={setActiveRole}></Channels>
           </Container>
         </Carousel.Item>
       </Carousel>
