@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table } from 'react-bootstrap';
 import Channel from './channel.js';
 
-function Channels({ data, setActiveRole }) {
+function Channels({ data, setActiveRole, setActiveChannel }) {
 
     return (
         <Table>
@@ -15,7 +15,7 @@ function Channels({ data, setActiveRole }) {
             </thead>
             <tbody>
                 {data.channels.map((channel, key) =>
-                    <Channel channel={channel} key={key} roles={data.roles} setActiveRole={setActiveRole}></Channel>
+                    <Channel channel={channel} key={key} roles={data.roles} setActiveRole={setActiveRole} setActiveChannel={setActiveChannel}></Channel>
                 )}
             </tbody>
         </Table>

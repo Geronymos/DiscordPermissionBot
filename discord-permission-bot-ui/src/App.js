@@ -8,12 +8,14 @@ import { Navbar, Nav, Carousel, Container, Badge } from 'react-bootstrap';
 import Channels from './components/channels';
 import Permissions from './components/permissions';
 import githublogo from './media/GitHub-Mark-32px.png';
+import RoleList from './components/roleList';
 // import Search from './components/search';
 
 function App() {
   var [data, setData] = React.useState({ channels: [], roles: [] });
-  var [activeRole, setActiveRole] = React.useState();
-  const activeRoleColor = "#" + (activeRole?.role.color || 8948369).toString(16);
+  var [activeRole, setActiveRole] = React.useState(); 
+  var [activeChannel, setActiveChannel] = React.useState(); 
+  const activeRoleColor = "#" + (activeRole?.color || 8948369).toString(16);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -23,6 +25,10 @@ function App() {
     }
     fetchData();
   }, []);
+
+  function getPermissionOverwrites() {
+    return activeChannel?.permission_overwrites.find( ({id}) => parseInt(id) === activeRole?.id );
+  }
 
   return (
     <div>
@@ -43,15 +49,20 @@ function App() {
         </Navbar.Brand>
       </Navbar>
       <Carousel interval={null} id="bot-carousel" wrap={false}>
+        <Carousel.Item id="permissions">
+          <Container>
+            <RoleList roles={data.roles} activeRole={activeRole} setActiveRole={setActiveRole}></RoleList>
+          </Container>
+        </Carousel.Item>
         <Carousel.Item id="channels">
           <Container>
-            <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.role.name}</Badge> in {activeRole?.channel.name}</h2>
-            <Permissions allowCode={activeRole?.permission_overwrites.allow} denyCode={activeRole?.permission_overwrites.deny}></Permissions>
+            <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.name}</Badge> in {activeChannel?.name}</h2>
+            <Permissions allowCode={getPermissionOverwrites()?.allow} denyCode={getPermissionOverwrites()?.deny}></Permissions>
           </Container>
         </Carousel.Item>
         <Carousel.Item id="permissions">
           <Container>
-            <Channels data={data} setActiveRole={setActiveRole}></Channels>
+            <Channels data={data} setActiveRole={setActiveRole} setActiveChannel={setActiveChannel}></Channels>
           </Container>
         </Carousel.Item>
       </Carousel>
