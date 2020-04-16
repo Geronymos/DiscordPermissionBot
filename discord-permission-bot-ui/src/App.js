@@ -9,6 +9,7 @@ import Channels from './components/channels';
 import Permissions from './components/permissions';
 import githublogo from './media/GitHub-Mark-32px.png';
 import RoleList from './components/roleList';
+import ChannelList from './components/channelList';
 // import Search from './components/search';
 
 function App() {
@@ -58,6 +59,11 @@ function App() {
           <Container>
             <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.name}</Badge> in {activeChannel?.name}</h2>
             <Permissions allowCode={getPermissionOverwrites()?.allow} denyCode={getPermissionOverwrites()?.deny}></Permissions>
+          </Container>
+        </Carousel.Item>
+        <Carousel.Item id="permissions">
+          <Container>
+            <ChannelList channels={data.channels}></ChannelList>
           </Container>
         </Carousel.Item>
         <Carousel.Item id="permissions">
