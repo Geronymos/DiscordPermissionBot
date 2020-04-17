@@ -1,11 +1,12 @@
 <?php
 
 include('../vendor/autoload.php');
+include('./role-channels.php');
 
 use RestCord\DiscordClient;
 
 // for use in console (PHP cli)
-if (isset($argc)) {
+if (get_included_files()[0] == __FILE__ && isset($argc)) {
     $options = getopt("g:a:d:t:");
     $discord = new DiscordClient(['token' => $options['t']]); // Token is required
 
@@ -39,13 +40,6 @@ function similar_name($client, $guildID, $allow, $deny) {
 
     foreach ( $pairs as $pair ) {
         echo $pair["role"]->name . " in " . $pair["channel"]->name . "\n";
-        $parameters = [
-            "channel.id" => $pair["channel"]->id,
-            "overwrite.id" => strval($pair["role"]->id),
-            "allow" => intval($allow),
-            "deny" => intval($deny),
-            "type" => "role"
-        ];
-        $client->channel->editChannelPermissions($parameters);
+        role_channel($client, $pair['channel']->id, $pair['role']->id, $allow, $deny);
     }
 }

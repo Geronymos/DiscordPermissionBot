@@ -5,7 +5,7 @@ include('../vendor/autoload.php');
 use RestCord\DiscordClient;
 
 // for use in console (PHP cli)
-if (isset($argc)) {
+if (get_included_files()[0] == __FILE__ && isset($argc)) {
     $options = getopt("c:r:a:d:t:");
     $discord = new DiscordClient(['token' => $options['t']]); // Token is required
 
