@@ -11,7 +11,7 @@ if (isset($argc)) {
 
     role_channel(
         $discord,
-        $options['c'], // guild
+        $options['c'], // channel
         $options['r'], // role
         $options['a'], // allow
         $options['d'] // deny
