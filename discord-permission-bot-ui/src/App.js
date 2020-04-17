@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { bot_url, server_id } from './config.json';
 
 
-import { Navbar, Nav, Carousel, Container, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Carousel, Container, Badge, Button, Form } from 'react-bootstrap';
 import Channels from './components/channels';
 import Permissions from './components/permissions';
 import githublogo from './media/GitHub-Mark-32px.png';
@@ -13,12 +13,14 @@ import ChannelList from './components/channelList';
 // import Search from './components/search';
 
 function App() {
-  var [data, setData] = React.useState({ channels: [], roles: [] });
-  var [activeRole, setActiveRole] = React.useState(); 
-  var [activeChannel, setActiveChannel] = React.useState(); 
+  const [data, setData] = useState({ channels: [], roles: [] });
+  const [activeRole, setActiveRole] = useState();
+  const [activeChannel, setActiveChannel] = useState();
+  const [selectedChannels, setSelectedChannels] = useState([]);
+  const [overwrites, setOverwrites] = useState({allow: 0, deny: 0});
   const activeRoleColor = "#" + (activeRole?.color || 8948369).toString(16);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchData() {
       const response = await fetch(bot_url + "/?server=" + server_id);
       const result = await response.json();
@@ -28,7 +30,7 @@ function App() {
   }, []);
 
   function getPermissionOverwrites() {
-    return activeChannel?.permission_overwrites.find( ({id}) => parseInt(id) === activeRole?.id );
+    return activeChannel?.permission_overwrites.find(({ id }) => parseInt(id) === activeRole?.id);
   }
 
   return (
@@ -58,12 +60,41 @@ function App() {
         <Carousel.Item id="channels">
           <Container>
             <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.name}</Badge> in {activeChannel?.name}</h2>
-            <Permissions allowCode={getPermissionOverwrites()?.allow} denyCode={getPermissionOverwrites()?.deny}></Permissions>
+            <Permissions allowCode={getPermissionOverwrites()?.allow} denyCode={getPermissionOverwrites()?.deny} callback={(allow, deny) => setOverwrites({ allow, deny })}></Permissions>
           </Container>
         </Carousel.Item>
         <Carousel.Item id="permissions">
           <Container>
-            <ChannelList channels={data.channels}></ChannelList>
+            <ChannelList channels={data.channels} onChange={setSelectedChannels}></ChannelList>
+          </Container>
+        </Carousel.Item>
+        <Carousel.Item id="permissions">
+          <Container>
+            <h2>Check and submit</h2>
+            <Form>
+              <Form.Group controlId="role">
+                <Form.Label>Role</Form.Label>
+                <Form.Control type="text" readOnly value={activeRole?.name} />
+              </Form.Group>
+
+              <Form.Group controlId="allow">
+                <Form.Label>Allow</Form.Label>
+                <Form.Control type="text" readOnly value={overwrites?.allow} />
+              </Form.Group>
+              <Form.Group controlId="deny">
+                <Form.Label>Deny</Form.Label>
+                <Form.Control type="text" readOnly value={overwrites?.deny} />
+              </Form.Group>
+              <Form.Group controlId="channels">
+                <Form.Label>Channels</Form.Label>
+                <Form.Control as="select" readOnly multiple>
+                  {selectedChannels?.map(channel => <option key={channel.id}>{channel.name}</option>)}
+                </Form.Control>
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
           </Container>
         </Carousel.Item>
         <Carousel.Item id="permissions">
