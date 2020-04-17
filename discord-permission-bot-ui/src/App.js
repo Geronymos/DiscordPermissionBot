@@ -3,6 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { bot_url, server_id } from './config.json';
 
+// normal JSON.parse cuts of last two symbols from IDs
+import * as JSONbig from 'json-bigint';
+
 
 import { Navbar, Nav, Carousel, Container, Badge, Button, Form } from 'react-bootstrap';
 import Channels from './components/channels';
@@ -10,6 +13,7 @@ import Permissions from './components/permissions';
 import githublogo from './media/GitHub-Mark-32px.png';
 import RoleList from './components/roleList';
 import ChannelList from './components/channelList';
+import SubmitForm from './components/submitForm';
 // import Search from './components/search';
 
 function App() {
@@ -22,8 +26,11 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(bot_url + "/?server=" + server_id);
-      const result = await response.json();
+      const response = await fetch(bot_url + "/getData.php?server=" + server_id);
+      const text = await response.text()
+      // const result = await response.json();
+      const result = JSONbig.parse(text);
+      console.log("id", result.roles[0].id.toString());
       setData(result);
     }
     fetchData();
@@ -71,30 +78,7 @@ function App() {
         <Carousel.Item id="permissions">
           <Container>
             <h2>Check and submit</h2>
-            <Form>
-              <Form.Group controlId="role">
-                <Form.Label>Role</Form.Label>
-                <Form.Control type="text" readOnly value={activeRole?.name} />
-              </Form.Group>
-
-              <Form.Group controlId="allow">
-                <Form.Label>Allow</Form.Label>
-                <Form.Control type="text" readOnly value={overwrites?.allow} />
-              </Form.Group>
-              <Form.Group controlId="deny">
-                <Form.Label>Deny</Form.Label>
-                <Form.Control type="text" readOnly value={overwrites?.deny} />
-              </Form.Group>
-              <Form.Group controlId="channels">
-                <Form.Label>Channels</Form.Label>
-                <Form.Control as="select" readOnly multiple>
-                  {selectedChannels?.map(channel => <option key={channel.id}>{channel.name}</option>)}
-                </Form.Control>
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <SubmitForm activeRole={activeRole} selectedChannels={selectedChannels} overwrites={overwrites}/>
           </Container>
         </Carousel.Item>
         <Carousel.Item id="permissions">

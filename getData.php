@@ -22,10 +22,11 @@ $channels = $discord->guild->getGuildChannels(['guild.id' => $server]);
 // bundle data
 $data = [
     "channels" => $channels,
-    "roles" => $roles
+    "roles" => $roles,
+    "test" => 696671361304887316
 ];
 
-// print data
-echo json_encode( $data, JSON_PRETTY_PRINT);
+echo json_encode( $data );
 
 ?>
+
