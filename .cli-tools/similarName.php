@@ -1,7 +1,7 @@
 <?php
 
 include('../vendor/autoload.php');
-include('./role-channels.php');
+include('./role-channel.php');
 
 use RestCord\DiscordClient;
 
