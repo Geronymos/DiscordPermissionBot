@@ -6,23 +6,13 @@ import { bot_url, server_id } from './config.json';
 // normal JSON.parse cuts of last two symbols from IDs
 import * as JSONbig from 'json-bigint';
 
-
-import { Navbar, Nav, Carousel, Container, Badge, Button, Form } from 'react-bootstrap';
-import Channels from './components/channels';
-import Permissions from './components/permissions';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import githublogo from './media/GitHub-Mark-32px.png';
-import RoleList from './components/roleList';
-import ChannelList from './components/channelList';
 import SubmitForm from './components/submitForm';
 // import Search from './components/search';
 
 function App() {
   const [data, setData] = useState({ channels: [], roles: [] });
-  const [activeRole, setActiveRole] = useState();
-  const [activeChannel, setActiveChannel] = useState();
-  const [selectedChannels, setSelectedChannels] = useState([]);
-  const [overwrites, setOverwrites] = useState({allow: 0, deny: 0});
-  const activeRoleColor = "#" + (activeRole?.color || 8948369).toString(16);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,10 +25,6 @@ function App() {
     }
     fetchData();
   }, []);
-
-  function getPermissionOverwrites() {
-    return activeChannel?.permission_overwrites.find(({ id }) => parseInt(id) === activeRole?.id);
-  }
 
   return (
     <div>
@@ -58,35 +44,10 @@ function App() {
           GitHub Repo
         </Navbar.Brand>
       </Navbar>
-      <Carousel interval={null} id="bot-carousel" wrap={false}>
-        <Carousel.Item id="permissions">
-          <Container>
-            <RoleList roles={data.roles} activeRole={activeRole} setActiveRole={setActiveRole}></RoleList>
-          </Container>
-        </Carousel.Item>
-        <Carousel.Item id="channels">
-          <Container>
-            <h2>Role: <Badge className="mr-1" variant="primary" style={{ background: activeRoleColor }}>{activeRole?.name}</Badge> in {activeChannel?.name}</h2>
-            <Permissions allowCode={getPermissionOverwrites()?.allow} denyCode={getPermissionOverwrites()?.deny} callback={(allow, deny) => setOverwrites({ allow, deny })}></Permissions>
-          </Container>
-        </Carousel.Item>
-        <Carousel.Item id="permissions">
-          <Container>
-            <ChannelList channels={data.channels} onChange={setSelectedChannels}></ChannelList>
-          </Container>
-        </Carousel.Item>
-        <Carousel.Item id="permissions">
-          <Container>
-            <h2>Check and submit</h2>
-            <SubmitForm activeRole={activeRole} selectedChannels={selectedChannels} overwrites={overwrites}/>
-          </Container>
-        </Carousel.Item>
-        <Carousel.Item id="permissions">
-          <Container>
-            <Channels data={data} setActiveRole={setActiveRole} setActiveChannel={setActiveChannel}></Channels>
-          </Container>
-        </Carousel.Item>
-      </Carousel>
+      <Container>
+        <h2>Check and submit</h2>
+        <SubmitForm data={data}/>
+      </Container>
     </div>
   );
 }
