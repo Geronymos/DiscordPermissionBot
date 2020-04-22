@@ -48,22 +48,34 @@
         "type": ""
     },
     {
+        "name": "PRIORITY_SPEAKER",
+        "code": "0x00000100",
+        "description": "Allows for using priority speaker in a voice channel",
+        "type": "V"
+    },
+    {
+        "name": "STREAM",
+        "code": "0x00000200",
+        "description": "Allows the user to go live",
+        "type": "V"
+    },
+    {
         "name": "VIEW_CHANNEL",
         "code": "0x00000400",
         "description": "Allows guild members to view a channel, which includes reading messages in text channels",
-        "type": "V"
+        "type": "TV"
     },
     {
         "name": "SEND_MESSAGES",
         "code": "0x00000800",
         "description": "Allows for sending messages in a channel",
-        "type": "V"
+        "type": "T"
     },
     {
         "name": "SEND_TTS_MESSAGES",
         "code": "0x00001000",
         "description": "Allows for sending of /tts messages",
-        "type": "TV"
+        "type": "T"
     },
     {
         "name": "MANAGE_MESSAGES *",
@@ -141,18 +153,6 @@
         "name": "USE_VAD",
         "code": "0x02000000",
         "description": "Allows for using voice-activity-detection in a voice channel",
-        "type": ""
-    },
-    {
-        "name": "PRIORITY_SPEAKER",
-        "code": "0x00000100",
-        "description": "Allows for using priority speaker in a voice channel",
-        "type": ""
-    },
-    {
-        "name": "STREAM",
-        "code": "0x00000200",
-        "description": "Allows the user to go live",
         "type": "V"
     },
     {
