@@ -103,6 +103,33 @@ function PermissionComponent($permission)
     const allowInput = document.getElementById('allow');
     const denyInput = document.getElementById('deny');
 
+    function decodePermission(allow, deny) {
+
+        // sets permission state of every btn-group if the permission is in the bitSet
+        permissions.map(permission => {
+            if ((parseInt(allow) & parseInt(permission.code)) === parseInt(permission.code)) {
+                $(`[name=${permission.code}][value=allow]`).parent().button('toggle');
+            } else if ((parseInt(deny) & parseInt(permission.code)) === parseInt(permission.code)) {
+                $(`[name=${permission.code}][value=deny]`).parent().button('toggle');
+            } else {
+                $(`[name=${permission.code}][value=default]`).parent().button('toggle');
+            }
+
+            allowInput.value = allow;
+            denyInput.value = deny;
+        });
+    }
+
+    // this.focus fixes the button('toggle') focus
+    allowInput.oninput = function() {
+        decodePermission(allowInput.value, denyInput.value);
+        $(this).focus()
+    };
+    denyInput.oninput = function() {
+        decodePermission(allowInput.value, denyInput.value);
+        $(this).focus()
+    };
+
     // encode permission
     permissions.map(permission => {
         const elements = [...document.getElementsByName(permission.code.toString())];
@@ -124,6 +151,8 @@ function PermissionComponent($permission)
                         allowInput.value &= ~code;
                         denyInput.value &= ~code;
                 }
+                // to keep radio button across permission types (general, text, voice) consistent
+                decodePermission(allowInput.value, denyInput.value);
             };
         });
     });
