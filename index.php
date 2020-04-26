@@ -1,5 +1,12 @@
 <?php
 
+$client_id = (getenv('CLIENT_ID') ? getenv('CLIENT_ID') : getenv('REDIRECT_CLIENT_ID'));
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]login.php";
+$permission = 16;
+$scope = "identify bot";
+
+$link = "https://discordapp.com/api/oauth2/authorize?client_id=$client_id&permissions=$permission&redirect_uri=" . urlencode($url) . "&response_type=code&scope=" . urlencode($scope);
+
 ?>
 
 
@@ -25,7 +32,7 @@
                 <p class="lead">The DiscordPermissionBot makes it easy to edit large amounts of roles and channels of a guild in discord. </p>
                 <hr class="my-4">
                 <p>Implement the bot in your guild now and start managing your channels like a professional! </p>
-                <a class="btn btn-primary btn-lg" href="#" role="button">Add the bot</a>
+                <a class="btn btn-primary btn-lg" href="<?php echo $link ?>" role="button">Add the bot</a>
             </div>
         </div>
     </header>
@@ -55,7 +62,7 @@
                 <div class="col-md-6">
                     <h2>Variation</h2>
                     <p>
-                        The DiscordPermissionBot comes with different methods that make your life easier. Just decide on one and use as you wish. The bot comes with these methods: 
+                        The DiscordPermissionBot comes with different methods that make your life easier. Just decide on one and use as you wish. The bot comes with these methods:
                     </p>
                     <ul>
                         <li>Role-Channels</li>
