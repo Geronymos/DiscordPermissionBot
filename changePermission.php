@@ -1,39 +1,107 @@
 <?php
 include './vendor/autoload.php';
-// include './.cli-tools/role-channel.php';
 
 use RestCord\DiscordClient;
 
-header('Content-Type: application/json;');
-header("Access-Control-Allow-Origin: *");
 
 // get bot token from evironment variable in htaccess file
-$token = ( getenv('BOT_TOKEN') ? getenv('BOT_TOKEN') : getenv('REDIRECT_BOT_TOKEN') );
+$token = (getenv('BOT_TOKEN') ? getenv('BOT_TOKEN') : getenv('REDIRECT_BOT_TOKEN'));
+
+$guild = intval($_GET['guild']);
+
+$message = "All fine!";
 
 // New bot client login
 $discord = new DiscordClient(['token' => $token]); // Token is required
 
-if(isset($_POST)) {
-$raw_post = file_get_contents("php://input");
-$data = json_decode($raw_post);
-// var_dump($data->role);
+// get roles and channels from guild
+$roles = $discord->guild->getGuildRoles(['guild.id' => $guild]);
+$channels = $discord->guild->getGuildChannels(['guild.id' => $guild]);
 
-$parameters = [
-    "channel.id" => intval($data->channel),
-    "overwrite.id" => strval($data->role),
-    "allow" => intval($data->overwrites->allow),
-    "deny" => intval($data->overwrites->deny),
-    "type" => "role"
-];
+if (!empty($_POST)) {
 
-// $parameters = [
-//     "channel.id" => intval(306153733497028611),
-//     "overwrite.id" => strval(696671361304887316),
-//     "allow" => intval(0),
-//     "deny" => intval(-1),
-//     "type" => "role"
-// ];
-$discord->channel->editChannelPermissions($parameters);
+    foreach ($_POST['channels'] as $channel) {
+        $parameters = [
+            "channel.id" => intval($channel),
+            "overwrite.id" => strval($_POST['role']),
+            "allow" => intval($_POST['allow']),
+            "deny" => intval($_POST['deny']),
+            "type" => "role"
+        ];
+        $discord->channel->editChannelPermissions($parameters);
+    }
+
+    $rolename = $roles[array_search(intval($_POST['role']), array_column($roles, 'id'))]->name;
+    $channelnames = [];
+    foreach ($_POST['channels'] as $channel) {
+        array_push($channelnames, $channels[array_search(intval($channel), array_column($channels, 'id'))]->name);
+    }
+    $message = "Operation Made. Hopefully changed $rolename in channels " . join(", ", $channelnames) . ". ";
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="assets/jquery-3.5.0.min.js"></script>
+    <script src="assets/bootstrap-4.4.1-dist/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+    <?php require "./.components/navbar.php" ?>
+    <div class="container">
+        <h2>Check and submit</h2>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-3 order-md-2">
+                    <div class="form-group">
+                        <label class="form-label" for="channels">Channels</label>
+                        <select name="channels[]" multiple="" required id="channels" class="custom-select" size="10">
+                            <?php
+                            foreach ($channels as $channel) {
+                                echo "<option value=" . $channel->id . ">" . ($channel->type === 0 ? "<b>#</b>" : "<b>🔊</b>") . $channel->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label class="form-label" for="role">Role</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">@</div>
+                            </div>
+                            <select id="role" name="role" class="form-control">
+                                <?php
+                                foreach ($roles as $role) {
+                                    echo "<option value=" . $role->id . ">" . $role->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <?php require "./.components/permissions.php" ?>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+    </form>
+    </div>
+</body>
+
+</html>
