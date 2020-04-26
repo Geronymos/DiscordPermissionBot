@@ -63,7 +63,19 @@ function PermissionComponent($permission)
         <table class="table">
             <thead>
                 <th>General Permissions</th>
-                <th></th>
+                <th class="text-right align-top">
+                    <div class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input name="general-permission" type="radio" value="deny">❌
+                        </label>
+                        <label class="btn btn-primary active ">
+                            <input name="general-permission" type="radio" value="default" checked>➖
+                        </label>
+                        <label class="btn btn-primary">
+                            <input name="general-permission" type="radio" value="allow">✔
+                        </label>
+                    </div>
+                </th>
             </thead>
             <tbody>
                 <?php foreach ($general_permissions as $permission) PermissionComponent($permission) ?>
@@ -74,7 +86,19 @@ function PermissionComponent($permission)
         <table class="table">
             <thead>
                 <th>Text Permissions</th>
-                <th></th>
+                <th class="text-right align-top">
+                    <div class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input name="text-permission" type="radio" value="deny">❌
+                        </label>
+                        <label class="btn btn-primary active ">
+                            <input name="text-permission" type="radio" value="default" checked>➖
+                        </label>
+                        <label class="btn btn-primary">
+                            <input name="text-permission" type="radio" value="allow">✔
+                        </label>
+                    </div>
+                </th>
             </thead>
             <tbody>
                 <?php foreach ($text_permissions as $permission) PermissionComponent($permission) ?>
@@ -85,7 +109,19 @@ function PermissionComponent($permission)
         <table class="table">
             <thead>
                 <th>Voice Permissions</th>
-                <th></th>
+                <th class="text-right align-top">
+                    <div class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input name="voice-permission" type="radio" value="deny">❌
+                        </label>
+                        <label class="btn btn-primary active ">
+                            <input name="voice-permission" type="radio" value="default" checked>➖
+                        </label>
+                        <label class="btn btn-primary">
+                            <input name="voice-permission" type="radio" value="allow">✔
+                        </label>
+                    </div>
+                </th>
             </thead>
             <tbody>
                 <?php foreach ($voice_permissions as $permission) PermissionComponent($permission) ?>
@@ -99,6 +135,11 @@ function PermissionComponent($permission)
     const general_permissions = <?php echo json_encode($general_permissions) ?>;
     const text_permissions = <?php echo json_encode($text_permissions) ?>;
     const voice_permissions = <?php echo json_encode($voice_permissions) ?>;
+
+    // calculate the bitSet that would exists if all permissions of one type would be active
+    const allGeneral = general_permissions.reduce((total, num) => total | parseInt(num.code), 0);
+    const allText = text_permissions.reduce((total, num) => total | parseInt(num.code), 0);
+    const allVoice = voice_permissions.reduce((total, num) => total | parseInt(num.code), 0);
 
     const allowInput = document.getElementById('allow');
     const denyInput = document.getElementById('deny');
@@ -161,4 +202,24 @@ function PermissionComponent($permission)
             };
         });
     });
+
+    // set all permissions from a permission type (general, text, voice)
+    function setPermissionFromType(event, permissionList) {
+        const allPermission = permissionList.reduce((total, num) => total | parseInt(num.code), 0);
+        switch (event.target.value) {
+            case "allow":
+                decodePermission(parseInt(allowInput.value) | allPermission, parseInt(denyInput.value) & ~allPermission);
+                break;
+            case "deny":
+                decodePermission(parseInt(allowInput.value) & ~allPermission, parseInt(denyInput.value) | allPermission);
+                break;
+            default:
+                decodePermission(parseInt(allowInput.value) & ~allPermission, parseInt(denyInput.value) & ~allPermission);
+
+        }
+    }
+
+    $("[name=general-permission]").click((e) => setPermissionFromType(e, general_permissions));
+    $("[name=text-permission]").click((e) => setPermissionFromType(e, text_permissions));
+    $("[name=voice-permission]").click((e) => setPermissionFromType(e, voice_permissions));
 </script>
