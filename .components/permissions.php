@@ -22,7 +22,7 @@ function PermissionComponent($permission)
     $component = "
     <tr>
         <td>
-            <span class=\"d-inline-block\">
+            <span class=\"d-inline-block\" data-trigger=\"hover\" data-toggle=\"popover\" data-content=\"$permission->description\">
                 $permission->name
             </span>
         </td>
@@ -102,6 +102,11 @@ function PermissionComponent($permission)
 
     const allowInput = document.getElementById('allow');
     const denyInput = document.getElementById('deny');
+
+    // tooltip init
+    $(function() {
+        $('[data-toggle="popover"]').popover()
+    })
 
     function decodePermission(allow, deny) {
 
