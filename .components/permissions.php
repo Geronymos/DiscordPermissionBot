@@ -164,6 +164,29 @@ function PermissionComponent($permission)
             allowInput.value = allow;
             denyInput.value = deny;
         });
+
+        // sets permission type state if all permissions of type are the same 
+        if ((allow & allGeneral) === allGeneral) {
+            $("[name=general-permission][value=allow]").parent().button("toggle");
+        } else if ((deny & allGeneral) === allGeneral) {
+            $("[name=general-permission][value=deny]").parent().button("toggle");
+        } else {
+            $("[name=general-permission][value=default]").parent().button("toggle");
+        }
+        if ((allow & allText) === allText) {
+            $("[name=text-permission][value=allow]").parent().button("toggle");
+        } else if ((deny & allText) === allText) {
+            $("[name=text-permission][value=deny]").parent().button("toggle");
+        } else {
+            $("[name=text-permission][value=default]").parent().button("toggle");
+        }
+        if ((allow & allVoice) === allVoice) {
+            $("[name=voice-permission][value=allow]").parent().button("toggle");
+        } else if ((deny & allVoice) === allVoice) {
+            $("[name=voice-permission][value=deny]").parent().button("toggle");
+        } else {
+            $("[name=voice-permission][value=default]").parent().button("toggle");
+        }
     }
 
     // this.focus fixes the button('toggle') focus
