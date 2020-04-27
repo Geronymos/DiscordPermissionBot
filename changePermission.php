@@ -45,63 +45,59 @@ if (!empty($_POST)) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/bootstrap-4.4.1-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="assets/jquery-3.5.0.min.js"></script>
-    <script src="assets/bootstrap-4.4.1-dist/js/bootstrap.bundle.js"></script>
+    <?php require "./.components/head.php" ?>
 </head>
+
 <body>
     <?php require "./.components/navbar.php" ?>
-    <div class="container">
-        <h2>Check and submit</h2>
-        <form method="post">
-            <div class="row">
-                <div class="col-md-3 order-md-2">
-                    <div class="form-group">
-                        <label class="form-label" for="channels">Channels</label>
-                        <select name="channels[]" multiple="" required id="channels" class="custom-select" size="10">
-                            <?php
-                            foreach ($channels as $channel) {
-                                echo "<option value=" . $channel->id . ">" . ($channel->type === 0 ? "<b>#</b>" : "<b>🔊</b>") . $channel->name . "</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-group">
-                        <label class="form-label" for="role">Role</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">@</div>
-                            </div>
-                            <select id="role" name="role" class="form-control">
+    <main>
+        <div class="container">
+            <h2>Check and submit</h2>
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3 order-md-2">
+                        <div class="form-group">
+                            <label class="form-label" for="channels">Channels</label>
+                            <select name="channels[]" multiple="" required id="channels" class="custom-select" size="10">
                                 <?php
-                                foreach ($roles as $role) {
-                                    echo "<option value=" . $role->id . ">" . $role->name . "</option>";
+                                foreach ($channels as $channel) {
+                                    echo "<option value=" . $channel->id . ">" . ($channel->type === 0 ? "<b>#</b>" : "<b>🔊</b>") . $channel->name . "</option>";
                                 }
                                 ?>
                             </select>
                         </div>
+
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="form-label" for="role">Role</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+                                <select id="role" name="role" class="form-control">
+                                    <?php
+                                    foreach ($roles as $role) {
+                                        echo "<option value=" . $role->id . ">" . $role->name . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
 
-                    <hr>
+                        <hr>
 
-                    <?php require "./.components/permissions.php" ?>
+                        <?php require "./.components/permissions.php" ?>
 
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-
-    </form>
-    </div>
+            </form>
+        </div>
+    </main>
+    <?php require "./.components/footer.php" ?>
 </body>
 
 </html>

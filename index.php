@@ -14,11 +14,8 @@ $link = "https://discordapp.com/api/oauth2/authorize?client_id=$client_id&permis
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/bootstrap-4.4.1-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <?php require "./.components/head.php" ?>
 </head>
 
 <body>
@@ -73,12 +70,7 @@ $link = "https://discordapp.com/api/oauth2/authorize?client_id=$client_id&permis
             </div>
         </div>
     </main>
-    <footer>
-        <hr>
-        <div class="container p-4">
-            - Made with love by Gero Beckmann (aka Geronymos, Orangerot)
-        </div>
-    </footer>
+    <?php require "./.components/footer.php" ?>
 </body>
 
 </html>
