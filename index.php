@@ -2,7 +2,7 @@
 
 $client_id = (getenv('CLIENT_ID') ? getenv('CLIENT_ID') : getenv('REDIRECT_CLIENT_ID'));
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]login.php";
-$permission = 16;
+$permission = 8;
 $scope = "identify bot";
 
 $link = "https://discordapp.com/api/oauth2/authorize?client_id=$client_id&permissions=$permission&redirect_uri=" . urlencode($url) . "&response_type=code&scope=" . urlencode($scope);
