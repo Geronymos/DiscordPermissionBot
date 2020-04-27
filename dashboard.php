@@ -32,7 +32,7 @@
 
             <div class="card-deck">
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-a-role.png" class="card-img-top" alt="Role-Channels preview">
+                    <img src="docs/role-channels.png" class="card-img-top" alt="Role-Channels preview">
                     <div class="card-body">
                         <h5 class="card-title">Role-Channels</h5>
                         <p class="card-text">Change the permision of one role for multiple channels. </p>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-channels.png" class="card-img-top" alt="Similar name preview">
+                    <img src="docs/similar-name.png" class="card-img-top" alt="Similar name preview">
                     <div class="card-body">
                         <h5 class="card-title">Similar name</h5>
                         <p class="card-text">Sets the permission of roles in channels with a similar name. </p>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-permissions.png" class="card-img-top" alt="Create from list preview">
+                    <img src="docs/create-from-list.png" class="card-img-top" alt="Create from list preview">
                     <div class="card-body">
                         <h5 class="card-title">Create from list</h5>
                         <p class="card-text">Creates roles, voice and text channels titled after a given role of names. </p>
