@@ -97,7 +97,7 @@ Here is an example:
 php similarName.php -g306153733497028610 -a2048 -d0 -tYOUR_TOKEN
 ```
 
-You can calculate the permission bitSets with online calculators or you can use the calculator that is build in the user interface. 
+You can calculate the permission bitSets with online calculators or you can use the calculator that is build in the user interface.
 
 ![permission calculator](./docs/similar-name.png)
 
