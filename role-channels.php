@@ -3,11 +3,15 @@ include './vendor/autoload.php';
 
 use RestCord\DiscordClient;
 
+session_start();
+if (empty($_SESSION)) {
+    die("Not logged in!");
+}
 
 // get bot token from evironment variable in htaccess file
 $token = (getenv('BOT_TOKEN') ? getenv('BOT_TOKEN') : getenv('REDIRECT_BOT_TOKEN'));
 
-$guild = intval($_GET['guild']);
+$guild_id = intval($_SESSION['guild_id']);
 
 $message = "All fine!";
 
@@ -15,8 +19,8 @@ $message = "All fine!";
 $discord = new DiscordClient(['token' => $token]); // Token is required
 
 // get roles and channels from guild
-$roles = $discord->guild->getGuildRoles(['guild.id' => $guild]);
-$channels = $discord->guild->getGuildChannels(['guild.id' => $guild]);
+$roles = $discord->guild->getGuildRoles(['guild.id' => $guild_id]);
+$channels = $discord->guild->getGuildChannels(['guild.id' => $guild_id]);
 
 if (!empty($_POST)) {
 
