@@ -48,7 +48,7 @@ if (!empty($_POST)) {
 <html lang="en">
 
 <head>
-    <title>Document</title>
+    <title>Create from list</title>
     <?php require "./.components/head.php" ?>
 </head>
 
@@ -57,6 +57,7 @@ if (!empty($_POST)) {
     <main>
         <div class="container">
             <h2>Create from list</h2>
+            <p>Creates roles, voice and text channels titled after a given role of names. </p>
             <form method="post">
                 <div class="form-group">
                     <div class="btn-group btn-group-toggle btn-group-sm w-100" data-toggle="buttons">

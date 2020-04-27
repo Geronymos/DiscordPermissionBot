@@ -14,7 +14,7 @@ $link = "https://discordapp.com/api/oauth2/authorize?client_id=$client_id&permis
 <html lang="en">
 
 <head>
-    <title>Document</title>
+    <title>DiscordPermissionBot</title>
     <?php require "./.components/head.php" ?>
 </head>
 

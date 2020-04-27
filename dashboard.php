@@ -9,11 +9,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/bootstrap-4.4.1-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <title>Dashboard</title>
+    <?php require "./.components/head.php" ?>
 </head>
 
 <body>
@@ -35,27 +32,27 @@
 
             <div class="card-deck">
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-a-role.png" class="card-img-top" alt="...">
+                    <img src="docs/v2020-04-17-select-a-role.png" class="card-img-top" alt="Role-Channels preview">
                     <div class="card-body">
                         <h5 class="card-title">Role-Channels</h5>
                         <p class="card-text">Change the permision of one role for multiple channels. </p>
-                        <a href="#" class="btn btn-secondary stretched-link">Use this method</a>
+                        <a href="role-channels.php" class="btn btn-secondary stretched-link">Use this method</a>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-channels.png" class="card-img-top" alt="...">
+                    <img src="docs/v2020-04-17-select-channels.png" class="card-img-top" alt="Similar name preview">
                     <div class="card-body">
                         <h5 class="card-title">Similar name</h5>
                         <p class="card-text">Sets the permission of roles in channels with a similar name. </p>
-                        <a href="#" class="btn btn-secondary stretched-link">Use this method</a>
+                        <a href="similar-name.php" class="btn btn-secondary stretched-link">Use this method</a>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="docs/v2020-04-17-select-permissions.png" class="card-img-top" alt="...">
+                    <img src="docs/v2020-04-17-select-permissions.png" class="card-img-top" alt="Create from list preview">
                     <div class="card-body">
                         <h5 class="card-title">Create from list</h5>
                         <p class="card-text">Creates roles, voice and text channels titled after a given role of names. </p>
-                        <a href="#" class="btn btn-secondary stretched-link">Use this method</a>
+                        <a href="create-from-list.php" class="btn btn-secondary stretched-link">Use this method</a>
                     </div>
                 </div>
             </div>

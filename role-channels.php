@@ -49,7 +49,7 @@ if (!empty($_POST)) {
 <html lang="en">
 
 <head>
-    <title>Document</title>
+    <title>Role-Channels</title>
     <?php require "./.components/head.php" ?>
 </head>
 
@@ -57,7 +57,8 @@ if (!empty($_POST)) {
     <?php require "./.components/navbar.php" ?>
     <main>
         <div class="container">
-            <h2>Check and submit</h2>
+            <h2>Role-Channels</h2>
+            <p>Change the permision of one role for multiple channels. </p>
             <form method="post">
                 <div class="row">
                     <div class="col-md-3 order-md-2">
