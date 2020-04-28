@@ -12,7 +12,6 @@ function getToken($client_id, $client_secret, $code, $redirect_url, $scope)
         "redirect_uri" => $redirect_url,
         "scope" => $scope
     ];
-
     $header = [
         "http" => [
             "method" => "POST",
@@ -47,8 +46,6 @@ if (isset($_GET["code"]) && isset($_GET["guild_id"])) {
     $client_id = (getenv('CLIENT_ID') ? getenv('CLIENT_ID') : getenv('REDIRECT_CLIENT_ID'));
 
     $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    echo $url;
-    $url = "http://localhost/DiscordPermissionBot/login.php";
     $permission = 16;
     $scope = "identify bot";
     $access_token = getToken($client_id, $client_secret, $_GET["code"], $url, $scope);
@@ -57,10 +54,6 @@ if (isset($_GET["code"]) && isset($_GET["guild_id"])) {
     $_SESSION["user"] = $user;
     $_SESSION["access_token"] = $access_token;
     $_SESSION["guild_id"] = $_GET["guild_id"];
-
-    // var_dump($user);
-
-    // var_dump($_SESSION);
 
     header("Location: ./dashboard.php");
 } else {

@@ -1,7 +1,7 @@
 <?php
 
-include_once(__DIR__ . './vendor/autoload.php');
-include_once(__DIR__ . './.cli-tools/similarName.php');
+include_once(__DIR__ . '/vendor/autoload.php');
+include_once(__DIR__ . '/.cli-tools/similarName.php');
 
 use RestCord\DiscordClient;
 
